@@ -1,11 +1,10 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎁 Yash’s Christmas Gift List 🎄</title>
 
-  <!-- ✅ Favicon / Logo Metadata -->
   <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Christmas_tree_icon_2.svg/512px-Christmas_tree_icon_2.svg.png">
   <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Christmas_tree_icon_2.svg/512px-Christmas_tree_icon_2.svg.png">
   <meta name="theme-color" content="#d62828">
@@ -57,4 +56,23 @@
   </ul>
   <p>Made with ❤️ for Christmas 2025</p>
 </body>
-</html>
+</html> -->
+
+
+<div id="toast" class="toast"></div>
+
+<h1>🎁 My Christmas Gift List 🎄</h1>
+<ul id="gift-container"></ul>
+
+<button onclick="openAdminLogin()" id="admin-section">🔐 Admin</button>
+
+<div id="add-item-section" style="display:none;">
+  <h2>Add a New Gift 🎁</h2>
+  <form id="add-item-form">
+    <input id="item-name" type="text" placeholder="Item Name" required><br><br>
+    <input id="item-link" type="url" placeholder="Item Link" required><br><br>
+    <button type="submit">Add Item</button>
+  </form>
+</div>
+
+
