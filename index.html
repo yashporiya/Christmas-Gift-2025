@@ -58,21 +58,147 @@
 </body>
 </html> -->
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎁 My Christmas Gift List 🎄</title>
 
-<div id="toast" class="toast"></div>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f7f0f7;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 { 
+      color: #d62828; 
+      cursor: default;
+    }
 
-<h1>🎁 My Christmas Gift List 🎄</h1>
-<ul id="gift-container"></ul>
+    /* Make only the gift icon clickable secretly */
+    .secret-admin {
+      cursor: pointer;
+    }
 
-<button onclick="openAdminLogin()" id="admin-section">🔐 Admin</button>
+    ul { list-style: none; padding: 0; }
+    li {
+      background: white;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 450px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    a { text-decoration: none; font-weight: bold; color: #0077b6; }
 
-<div id="add-item-section" style="display:none;">
-  <h2>Add a New Gift 🎁</h2>
-  <form id="add-item-form">
-    <input id="item-name" type="text" placeholder="Item Name" required><br><br>
-    <input id="item-link" type="url" placeholder="Item Link" required><br><br>
-    <button type="submit">Add Item</button>
-  </form>
-</div>
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #d62828;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      display: none;
+    }
+  </style>
+</head>
 
+<body>
 
+  <!-- 🎁 ICON is now the secret Admin trigger -->
+  <h1>
+    <span class="secret-admin" onclick="openAdminLogin()">🎁</span>
+    My Christmas Gift List 🎄
+  </h1>
+
+  <ul id="giftList"></ul>
+
+  <div id="toast"></div>
+
+  <script>
+    // -------------------------------
+    // GIFT LIST DATA (LOCAL STORAGE)
+    // -------------------------------
+    const defaultItems = [
+      { name: "Woop 5.0", url: "https://www.amazon.in/Whoop-5-0-Peak-Membership-Personalized/dp/B0FCFN34QP" },
+      { name: "Nike Pegasus EasyOn UK-10", url: "https://www.nike.com/in/t/pegasus-easyon-road-running-shoes-NMBl5l/FQ7837-002" },
+      { name: "Stubble & Co Roll Top 20L Bag (Black)", url: "https://www.stubbleandco.com/products/the-roll-top-20l" },
+      { name: "Lamy Safari Medium Nib Fountain Pen (Umbra)", url: "https://makoba.com/products/lamy-safari-fountain-pen-umbra" },
+      { name: "Marshall Emberton II", url: "https://www.marshall.com/in/en/product/emberton-ii" },
+      { name: "Instax Mini 12 Camera", url: "https://www.instax.in/products/instax-mini-12-camera" }
+    ];
+
+    function loadItems() {
+      const saved = localStorage.getItem("giftItems");
+      return saved ? JSON.parse(saved) : defaultItems;
+    }
+
+    function saveItems(items) {
+      localStorage.setItem("giftItems", JSON.stringify(items));
+    }
+
+    function renderList() {
+      const list = document.getElementById("giftList");
+      const items = loadItems();
+      list.innerHTML = "";
+
+      items.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `${item.name} <a href="${item.url}" target="_blank">Buy</a>`;
+        list.appendChild(li);
+      });
+    }
+
+    // -------------------------------
+    // SECRET ADMIN LOGIN + ADD ITEM
+    // -------------------------------
+    const ADMIN_PASSWORD = "yash2025";
+
+    function openAdminLogin() {
+      const pass = prompt("Enter admin password:");
+
+      if (pass === ADMIN_PASSWORD) {
+        openAdminPanel();
+      } else {
+        showToast("😂 Wrong password! You're not the Santa Admin!");
+      }
+    }
+
+    function openAdminPanel() {
+      const name = prompt("Enter New Gift Name:");
+      if (!name) return;
+
+      const url = prompt("Enter Product URL:");
+      if (!url) return;
+
+      const items = loadItems();
+      items.push({ name, url });
+      saveItems(items);
+
+      alert("🎉 Item added successfully!");
+      renderList();
+    }
+
+    // -------------------------------
+    // TOAST MESSAGE
+    // -------------------------------
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+
+      setTimeout(() => {
+        t.style.display = "none";
+      }, 2000);
+    }
+
+    // Initialize
+    renderList();
+  </script>
+
+</body>
+</html>
